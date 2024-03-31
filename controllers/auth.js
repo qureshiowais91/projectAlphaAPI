@@ -1,13 +1,14 @@
 const bcrypt = require('bcryptjs');
-const { User } = require('../models/User.js');
+const  User  = require('../models/User.js');
 const generateToken = require('../util/GenrateJWT.js');
 
 // Define the register function
 async function register(req, res) {
     try {
-        const { email, password, role } = req.body;
+        const { email, password,role } = req.body;
 
         const existingUser = await User.findOne({ email });
+
         if (existingUser) {
             return res.status(400).json({ message: 'Email already exists' });
         }
@@ -20,7 +21,7 @@ async function register(req, res) {
             role
         });
 
-        await newUser.save();
+        newUser.save();
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
@@ -35,6 +36,7 @@ async function login(req, res) {
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }

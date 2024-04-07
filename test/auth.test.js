@@ -6,8 +6,6 @@ const bcrypt = require('bcryptjs');
 
 // Test cases for register endpoint
 describe('auth', () => {
-
-
     beforeAll(async () => {
         try {
             await mongoose.connect(process.env.DATABASE_URL);
@@ -17,8 +15,7 @@ describe('auth', () => {
         }
 
         await User.deleteMany({});
-
-    });
+    },10000);
 
 
     test('It should register a new user', async () => {
@@ -38,7 +35,8 @@ describe('auth', () => {
     test('It should log in an existing user', async () => {
         const existingUser = {
             email: 'newuser1@example.com',
-            password: 'newpassword123'
+            password: 'newpassword123',
+            role:"admin"
         };
         // Send a POST request to login with existing user credentials
         const response = await request(app)

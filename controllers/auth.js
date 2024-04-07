@@ -34,7 +34,7 @@ async function register(req, res) {
 async function login(req, res) {
     try {
         const { email, password } = req.body;
-
+        console.log(req.body)
         const user = await User.findOne({ email });
 
         if (!user) {

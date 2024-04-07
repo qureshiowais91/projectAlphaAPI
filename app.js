@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { auth } = require("./routes/auth");
 const { teacher } = require("./routes/teacher")
 const { organization } = require("./routes/organization")
-require("dotenv").config()
+require("dotenv").config({ path: __dirname + '/.env' })
 
 
 const app = express();

@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 describe('auth', () => {
     beforeAll(async () => {
         try {
-            await mongoose.connect($DATABASE_URL);
+            await mongoose.connect(DATABASE_URL);
             console.log('MongoDB connected successfully');
         } catch (error) {
             console.error('Error connecting to MongoDB:', error);

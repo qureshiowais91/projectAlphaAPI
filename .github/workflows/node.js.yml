@@ -17,7 +17,7 @@ jobs:
     environment: dev
     env: 
       DATABASE_URL: ${{secrets.DATABASE_URL}}
-        
+      JWT_SECRET: ${{secrets.JWT_SECRET}}   
     strategy:
       matrix:
         node-version: [16.x,18.x,20.x]

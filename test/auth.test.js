@@ -2,22 +2,29 @@ const request = require('supertest');
 const app = require('../app'); // Assuming your Express app is exported from app.js
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const mongoose = require("mongoose")
+
+// afterAll(() => {
+//     // Add any cleanup tasks here
+//     console.log('Cleanup completed');
+
+// }, 10000);
+
+
+beforeAll(async () => {
+    try {
+        await mongoose.connect(process.env.DATABASE_URL);
+        console.log('MongoDB connected successfully');
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error);
+    }
+
+    await User.deleteMany({});
+}, 10000);
 
 
 // Test cases for register endpoint
 describe('auth', () => {
-    beforeAll(async () => {
-        try {
-            await mongoose.connect(process.env.DATABASE_URL);
-            console.log('MongoDB connected successfully');
-        } catch (error) {
-            console.error('Error connecting to MongoDB:', error);
-        }
-
-        await User.deleteMany({});
-    },10000);
-
-
     test('It should register a new user', async () => {
         const newUser = {
             email: 'newuser1@example.com',
@@ -36,7 +43,7 @@ describe('auth', () => {
         const existingUser = {
             email: 'newuser1@example.com',
             password: 'newpassword123',
-            role:"admin"
+            role: "admin"
         };
         // Send a POST request to login with existing user credentials
         const response = await request(app)
@@ -45,12 +52,6 @@ describe('auth', () => {
 
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('token');
-    });
-
-    afterAll(async () => {
-        // Add any cleanup tasks here
-        console.log('Cleanup completed');
-
     });
 });
 
@@ -81,7 +82,6 @@ describe('POST /addTeacher', () => {
 });
 
 
-const mongoose = require("mongoose")
 
 describe('Organization API Endpoints', () => {
     let organizationId;

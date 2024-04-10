@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { auth } = require("./routes/auth");
 const { teacher } = require("./routes/teacher")
 const { organization } = require("./routes/organization")
+const cors = require('cors')
 require("dotenv").config({ path: __dirname + '/.env' })
 
 
@@ -11,7 +12,7 @@ const app = express();
 
 // Your code goes here
 app.use(json());
-
+app.use(cors())
 // Connect to the database
 mongoose.connect(process.env.DATABASE_URL)
   .then(() => {

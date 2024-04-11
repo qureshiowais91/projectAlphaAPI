@@ -12,7 +12,9 @@ const app = express();
 
 // Your code goes here
 app.use(json());
-app.use(cors())
+app.use(cors({
+  origin: '*'
+}));
 // Connect to the database
 mongoose.connect(process.env.DATABASE_URL)
   .then(() => {

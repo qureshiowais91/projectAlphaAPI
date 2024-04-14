@@ -1,11 +1,12 @@
 const bcrypt = require('bcryptjs');
-const  User  = require('../models/User.js');
+const User = require('../models/User.js');
 const generateToken = require('../util/GenrateJWT.js');
+const { main } = require("../util/nodeMailer")
 
 // Define the register function
 async function register(req, res) {
     try {
-        const { email, password,role } = req.body;
+        const { email, password, role } = req.body;
 
         const existingUser = await User.findOne({ email });
 
@@ -22,6 +23,8 @@ async function register(req, res) {
         });
 
         newUser.save();
+
+        main(email).catch(console.error);
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {

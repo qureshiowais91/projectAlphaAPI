@@ -1,7 +1,8 @@
-const { sendOtp } = require('../controllers/validation');
+const { sendOtp, validateOTP } = require('../controllers/validation');
 const express = require('express');
 const validation = express.Router();
 
-validation.post('/test', sendOtp);
+validation.post('/resetpassword', sendOtp);
+validation.post("/validateotp", validateOTP);
 
 module.exports = { validation };

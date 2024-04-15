@@ -1,8 +1,5 @@
 const nodemailer = require('nodemailer');
 
-
-
-
 async function main(email) {
 
   const transporter = nodemailer.createTransport({

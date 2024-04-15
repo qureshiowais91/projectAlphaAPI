@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/User.js');
 const generateToken = require('../util/GenrateJWT.js');
-const { main } = require("../util/nodeMailer")
+const { main } = require("../util/welcomeMail.js")
 
 // Define the register function
 async function register(req, res) {

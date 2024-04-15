@@ -16,7 +16,7 @@ app.use(
     origin: '*',
   })
 );
-// Connect to the database
+
 mongoose
   .connect(process.env.DATABASE_URL)
   .then(() => {
@@ -27,7 +27,6 @@ mongoose
   });
 
 app.use('/api', validation);
-
 app.use('/api', auth);
 app.use('/api', teacher);
 // app.use('/api', organization);

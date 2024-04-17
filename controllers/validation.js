@@ -31,6 +31,7 @@ const validateOTP = async (req, res) => {
     if (found[0].email !== email) {
       throw Error("Email Not Found Or Email Invalid")
     }
+    
     const { REDIS_URL } = process.env;
     const renderRedis = new Redis(REDIS_URL);
 

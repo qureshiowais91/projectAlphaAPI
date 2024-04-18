@@ -16,13 +16,11 @@ async function register(req, res) {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = new User({
+        const newUser = await User.create({
             email,
             password: hashedPassword,
             role
         });
-
-        newUser.save();
 
         main(email).catch(console.error);
 
@@ -50,10 +48,10 @@ async function login(req, res) {
         }
 
         const token = generateToken({ userId: user._id, email: user.email, role: user.role }, { expiresIn: '1h' });
-        res.status(200).json({ token });
+        res.status(200).json({ isAuth: true, token, message: "Loggedin" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ isAuth: false, token: "false", message: "Check ID PASSWORD" });
     }
 }
 

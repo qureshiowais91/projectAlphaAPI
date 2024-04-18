@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     },
     school: {
         type: mongoose.Schema.Types.ObjectId,
-        default: false
+        required: false,
     }
 });
 

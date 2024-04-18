@@ -6,8 +6,11 @@ const {
     updateSchool,
 } = require('../controllers/school');
 
+
+const authenticateToken = require("../middleware/authentication");
+const authorizeRoles = require("../middleware/authorization")
 // Create a new school
-school.post('/', createSchool);
+school.post('/school/profile', authorizeRoles("admin"), authenticateToken, createSchool);
 
 // Retrieve all schools
 school.get('/', getAllSchools);

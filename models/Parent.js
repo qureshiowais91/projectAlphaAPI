@@ -18,7 +18,5 @@ const parentSchema = new mongoose.Schema({
 const Parent = mongoose.model('Parent', parentSchema);
 
 // Exporting models
-module.exports = {
-    User,
-    Parent,
-};
+module.exports =  Parent
+

@@ -14,27 +14,22 @@ const schoolSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // Array of teachers associated with the school
-    teachers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Teacher'
-    }],
-    // Array of parents associated with the school
-    parents: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Parent'
-    }],
-    // Array of students associated with the school
-    students: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student'
-    }],
-    // Array of admins associated with the school
-    admins: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }]
-    // Add more fields as needed
+    // // Array of teachers associated with the school
+    // teachers: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Teacher'
+    // }],
+    // // Array of parents associated with the school
+    // parents: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Parent'
+    // }],
+    // // Array of students associated with the school
+    // students: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Student'
+    // }],
+   
 });
 
 // Creating model for School

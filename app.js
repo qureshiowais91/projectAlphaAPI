@@ -29,7 +29,7 @@ mongoose
 app.use('/api', validation);
 app.use('/api', auth);
 app.use('/api', teacher);
-app.use("/api",school);
+app.use("/api", school);
 // app.use('/api', organization);
 
 const PORT = process.env.PORT || 3000;

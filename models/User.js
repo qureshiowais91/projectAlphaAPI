@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     verified: {
         type: Boolean,
         default: false
+    },
+    school: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: false
     }
 });
 

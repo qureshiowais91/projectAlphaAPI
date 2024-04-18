@@ -1,5 +1,5 @@
 const School = require('../models/School');
-
+const User = require("../models/User")
 // Controller for creating a new school
 const createSchool = async (req, res) => {
     try {
@@ -13,9 +13,14 @@ const createSchool = async (req, res) => {
             contactDetails
         });
 
-        // Save the new school to the database
+        // Save the new school to the database  
         await newSchool.save();
 
+        const check= await User.findByIdAndUpdate(req.user.userId, {
+            school: newSchool._id
+        });
+
+        console.log(check,req.user)
         // Return a success message along with the added school
         res.status(201).json({ message: 'School created successfully', school: newSchool });
     } catch (error) {

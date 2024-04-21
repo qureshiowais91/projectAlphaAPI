@@ -5,6 +5,7 @@ const { auth } = require('./routes/auth');
 const { teacher } = require('./routes/teacher');
 const { school } = require('./routes/school');
 const { validation } = require('./routes/validation');
+const { profile } = require("./routes/profile")
 const cors = require('cors');
 require('dotenv').config();
 const app = express();
@@ -30,6 +31,7 @@ app.use('/api', validation);
 app.use('/api', auth);
 app.use('/api', teacher);
 app.use("/api", school);
+app.use("/api", profile);
 // app.use('/api', organization);
 
 const PORT = process.env.PORT || 3000;

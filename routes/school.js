@@ -10,7 +10,7 @@ const {
 const authenticateToken = require("../middleware/authentication");
 const authorizeRoles = require("../middleware/authorization")
 // Create a new school
-school.post('/school/profile', authorizeRoles("admin"), authenticateToken, createSchool);
+school.post('/school', authorizeRoles("admin"), authenticateToken, createSchool);
 
 // Retrieve all schools
 school.get('/', getAllSchools);

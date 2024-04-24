@@ -48,7 +48,7 @@ async function login(req, res) {
         }
 
         const token = generateToken({ userId: user._id, email: user.email, role: user.role }, { expiresIn: '1h' });
-        res.status(200).json({ isAuth: true, token, message: "Loggedin" });
+        res.status(200).json({ isAuth: true, token, message: "Loggedin", role: user.role });
     } catch (error) {
         console.error(error);
         res.status(500).json({ isAuth: false, token: "false", message: "Check ID PASSWORD" });

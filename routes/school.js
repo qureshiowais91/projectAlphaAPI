@@ -19,7 +19,7 @@ school.get('/', getAllSchools);
 // Update a school
 school.put('/', updateSchool);
 
-school.get('/genrateInviteCode', generateInviteCode)
+school.post('/genrateInviteCode',authenticateToken,authorizeRoles(['admin']), generateInviteCode)
 // Delete a school
 // school.delete('/', deleteSchool);
 

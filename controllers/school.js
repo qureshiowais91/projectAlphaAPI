@@ -63,47 +63,19 @@ const updateSchool = async (req, res) => {
 
 const generateInviteCode = async (req, res) => {
     try {
-        const { codeLength } = req.query;
+        const { inviteCode } = req.body;
+        const { user } = req
+        const schoolId = user.school
 
-        if (codeLength < 6 || codeLength > 20) {
-             throw Error('invite code must consist of minimum 6 and maximum 20 characters only');
-        }
+        const updatedSchool = await School.findByIdAndUpdate(schoolId, { inviteCode: inviteCode }, { new: true })
 
-        const charset = process.env.InviteChar;
-        let code = '';
-
-        for (let i = 0; i < codeLength; i++) {
-            const randomIndex = Math.floor(Math.random() * charset.length);
-            code += charset[randomIndex];
-        }
-
-        return res.status(200).json({ message: 'InviteCode', invite: code });
+        return res.status(200).json({ message: 'InviteCode  Updated', invite: updatedSchool });
     } catch (error) {
-         res.status(500).json({ message: error });
+        res.status(500).json({ message: error });
     }
 };
 
-// Example usage:
-// Assuming you have an Express app set up and listening on a specific route
-// app.get('/generateInviteCode', generateInviteCode);
 
-
-// Controller for deleting a school
-// const deleteSchool = async (req, res) => {
-//     try {
-//         // Extract school ID from the request parameters
-//         const { id } = req.query;
-
-//         // Delete the school from the database
-//         await School.findByIdAndDelete(id);
-
-//         // Return a success message
-//         res.status(200).json({ message: 'School deleted successfully' });
-//     } catch (error) {
-//         // Handle any errors
-//         res.status(500).json({ message: 'Failed to delete school', error: error.message });
-//     }
-// };
 
 module.exports = {
     createSchool,

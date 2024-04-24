@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
-function authorizeRoles(allowedRoles) {
-    return function(req, res, next) {
+ function authorizeRoles(allowedRoles) {
+    return async function (req, res, next) {
         // Extract the token from the Authorization header
         const authHeader = req.headers.authorization;
         const token = authHeader.split(' ')[1];
-        
+
         // If no token is provided, send 401 Unauthorized status
         if (!token) {
             return res.status(401).json({ message: "No token provided." });
@@ -16,7 +17,8 @@ function authorizeRoles(allowedRoles) {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
             // Attach the decoded user information to the request object
-            req.user = decoded;
+
+            req.user =  await User.findById(decoded.userId);
 
             // Check if the user's role is allowed to access the route
             if (!allowedRoles.includes(req.user.role)) {

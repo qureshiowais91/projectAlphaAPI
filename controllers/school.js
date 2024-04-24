@@ -61,6 +61,33 @@ const updateSchool = async (req, res) => {
     }
 };
 
+const generateInviteCode = async (req, res) => {
+    try {
+        const { codeLength } = req.query;
+
+        if (codeLength < 6 || codeLength > 20) {
+             throw Error('invite code must consist of minimum 6 and maximum 20 characters only');
+        }
+
+        const charset = process.env.InviteChar;
+        let code = '';
+
+        for (let i = 0; i < codeLength; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            code += charset[randomIndex];
+        }
+
+        return res.status(200).json({ message: 'InviteCode', invite: code });
+    } catch (error) {
+         res.status(500).json({ message: error });
+    }
+};
+
+// Example usage:
+// Assuming you have an Express app set up and listening on a specific route
+// app.get('/generateInviteCode', generateInviteCode);
+
+
 // Controller for deleting a school
 // const deleteSchool = async (req, res) => {
 //     try {
@@ -81,5 +108,6 @@ const updateSchool = async (req, res) => {
 module.exports = {
     createSchool,
     getAllSchools,
-    updateSchool
+    updateSchool,
+    generateInviteCode
 };

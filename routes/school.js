@@ -4,6 +4,7 @@ const {
     createSchool,
     getAllSchools,
     updateSchool,
+    generateInviteCode
 } = require('../controllers/school');
 
 
@@ -18,6 +19,7 @@ school.get('/', getAllSchools);
 // Update a school
 school.put('/', updateSchool);
 
+school.get('/genrateInviteCode', generateInviteCode)
 // Delete a school
 // school.delete('/', deleteSchool);
 

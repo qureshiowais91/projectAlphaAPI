@@ -76,10 +76,50 @@ const generateInviteCode = async (req, res) => {
 };
 
 
+const joinbyInviteCode = async (req, res) => {
+    try {
+        // get inviteCode
+        const user = req.user;
+        const inviteCode = req.body.inviteCode;
+        // search school module for this inviteCode
+
+        const pipline = [
+            {
+                $match: { 'inviteCode': inviteCode }
+            }
+        ]
+
+        const foundSchool = await School.aggregate(pipline);
+
+        const updateUserSchool = {};
+        updateUserSchool[user.role] = user._id;
+        console.log(updateUserSchool, "12312312312");
+        
+        // console.log(req.user)
+        // console.log(foundSchool)
+        // if school found
+        // update school with teacher or parent
+        const userUpdated = await User.findByIdAndUpdate(user._id, { school: foundSchool[0]._id }, { new: true });
+        const schoolUpdated = await School.findByIdAndUpdate(foundSchool[0]._id, updateUserSchool, { new: true });
+        // add school id to user(parent and teacher) 
+        // if school not found
+        res.status(200).json(schoolUpdated)
+
+        if (foundSchool == []) {
+            res.status(200).json({ "Error": "Invalid Invite Code Or Code is Changed!!" })
+        }
+        // return invite code  does not exist
+    } catch (error) {
+
+    }
+
+}
+
 
 module.exports = {
     createSchool,
     getAllSchools,
     updateSchool,
-    generateInviteCode
+    generateInviteCode,
+    joinbyInviteCode
 };

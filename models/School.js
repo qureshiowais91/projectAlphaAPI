@@ -19,17 +19,17 @@ const schoolSchema = new mongoose.Schema({
         required: false
     },
     // Array of teachers associated with the school
-    teachers: [{
+    teacher: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Teacher'
     }],
     // Array of parents associated with the school
-    parents: [{
+    parent: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Parent'
     }],
     // Array of students associated with the school
-    students: [{
+    student: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student'
     }],

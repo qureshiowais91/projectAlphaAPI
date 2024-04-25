@@ -4,7 +4,8 @@ const {
     createSchool,
     getAllSchools,
     updateSchool,
-    generateInviteCode
+    generateInviteCode,
+    joinbyInviteCode
 } = require('../controllers/school');
 
 
@@ -19,7 +20,8 @@ school.get('/', getAllSchools);
 // Update a school
 school.put('/', updateSchool);
 
-school.post('/genrateInviteCode',authenticateToken,authorizeRoles(['admin']), generateInviteCode)
+school.post('/genrateInviteCode', authenticateToken, authorizeRoles(['admin']), generateInviteCode)
+school.post('/joinbyInviteCode', authenticateToken, authorizeRoles(['parent', 'teacher']), joinbyInviteCode);
 // Delete a school
 // school.delete('/', deleteSchool);
 

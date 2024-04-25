@@ -24,7 +24,9 @@ async function register(req, res) {
 
         main(email).catch(console.error);
 
-        res.status(201).json({ message: 'User registered successfully' });
+
+        const token = generateToken({ userId: newUser._id, email: email, role: role }, { expiresIn: '1h' });
+        res.status(200).json({ isAuth: true, token, message: "Loggedin", role: role });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

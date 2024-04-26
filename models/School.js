@@ -33,7 +33,6 @@ const schoolSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student'
     }],
-
 });
 
 // Creating model for School

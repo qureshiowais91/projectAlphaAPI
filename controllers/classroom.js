@@ -52,10 +52,11 @@ const joinClassroom = async (req, res) => {
 // Join Classroom As Teacher
 const joinClassroomTeacher = async (req, res) => {
     try {
-        const { classroomId, teacherId } = req.body;
-        if (!classroomId && !teacherId) {
-            throw new Error("Classroom or Teacher ID Missing");
+        const { classroomId, } = req.body;
+        if (!classroomId ) {
+            throw new Error("Classroom Missing");
         }
+        const teacherId = req.user._id;
         const updatedClassroom = await Classroom.findByIdAndUpdate(
             classroomId,
             { teacher: teacherId },

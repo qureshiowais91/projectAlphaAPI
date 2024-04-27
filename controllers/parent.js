@@ -37,7 +37,7 @@ const addStudent = async (req, res) => {
         // Return a success message along with the added child
         res
             .status(201)
-            .json({ message: 'Student added successfully', Parent: updatedParent });
+            .json({ message: 'Student added successfully', Parent: updatedParent, newStudent: newStudent });
     } catch (error) {
         // Handle any errors
         res

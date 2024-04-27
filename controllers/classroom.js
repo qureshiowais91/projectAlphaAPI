@@ -14,12 +14,12 @@ const createClassroom = async (req, res) => {
             school: school // Assign the school's ObjectId to the classroom
         });
 
-        res.status(201).json({ newClassroom,message: "Classroom created successfully"});
-} catch (err) {
-    // Handle errors
-    console.error(err);
-    res.status(500).json({ message: 'Server Error' });
-}
+        res.status(201).json({ newClassroom, message: "Classroom created successfully" });
+    } catch (err) {
+        // Handle errors
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
 };
 
 const getClassroom = async (req, res) => {
@@ -27,6 +27,20 @@ const getClassroom = async (req, res) => {
         const classrooms = await Classroom.find({});
         res.status(200).json(classrooms);
     } catch (err) { }
+}
+
+const joinClassroom = async (req, res) => {
+    try {
+        const { classroomId } = req.body;
+        const studentId  = req.user.student._id;
+        
+        const updateClassroom = {};
+
+
+    
+    } catch (error) {
+
+    }
 }
 
 module.exports = {

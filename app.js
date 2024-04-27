@@ -38,7 +38,7 @@ app.use("/api", school);
 app.use("/api", profile);
 app.use("/api", parent);
 app.use('/api', admin);
-app.use('/api', user)
+app.use('/api', user);
 // app.use('/api', organization);
 
 const PORT = process.env.PORT || 3000;

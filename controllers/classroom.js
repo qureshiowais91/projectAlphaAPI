@@ -26,9 +26,17 @@ const createClassroom = async (req, res) => {
 
 const getClassroom = async (req, res) => {
     try {
-        const classrooms = await Classroom.find({});
+        const schoolId = req.user?.school?._id;
+        console.log(req.user)
+        if (!schoolId) {
+            throw new Error("schoolId is Missing");
+        }
+        const classrooms = await Classroom.find({ "school": schoolId }).select('_id classroom');
         res.status(200).json(classrooms);
-    } catch (err) { }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err.message);
+    }
 };
 
 // when parent adds kids then only add to classroom also
@@ -53,7 +61,7 @@ const joinClassroom = async (req, res) => {
 const joinClassroomTeacher = async (req, res) => {
     try {
         const { classroomId, } = req.body;
-        if (!classroomId ) {
+        if (!classroomId) {
             throw new Error("Classroom Missing");
         }
         const teacherId = req.user._id;

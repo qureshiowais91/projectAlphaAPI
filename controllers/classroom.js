@@ -35,7 +35,7 @@ const getClassroom = async (req, res) => {
 const joinClassroom = async (req, res) => {
     try {
         const { classroomId, studentId } = req.body;
-        if(!classroomId && !studentId){
+        if (!classroomId && !studentId) {
             throw new Error("Classroom or Student ID Missing");
         }
         const updatedClassroom = await Classroom.findByIdAndUpdate(
@@ -43,16 +43,33 @@ const joinClassroom = async (req, res) => {
             { $push: { students: studentId } },
             { new: true }
         );
-        console.log(updatedClassroom,classroomId,studentId)
         res.status(201).json({ classroom: updatedClassroom, message: "Classroom Joined Successfully" })
-    } catch (error) { 
+    } catch (error) {
         res.status(500).json({ message: error.message })
-
     }
 };
+
+// Join Classroom As Teacher
+const joinClassroomTeacher = async (req, res) => {
+    try {
+        const { classroomId, teacherId } = req.body;
+        if (!classroomId && !teacherId) {
+            throw new Error("Classroom or Teacher ID Missing");
+        }
+        const updatedClassroom = await Classroom.findByIdAndUpdate(
+            classroomId,
+            { teacher: teacherId },
+            { new: true }
+        );
+        res.status(201).json({ classroom: updatedClassroom, message: "Classroom Joined Successfully" })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
 
 module.exports = {
     createClassroom,
     getClassroom,
-    joinClassroom
+    joinClassroom,
+    joinClassroomTeacher
 };

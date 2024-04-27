@@ -5,6 +5,6 @@ const authenticateToken = require("../middleware/authentication");
 const authorizeRoles = require("../middleware/authorization")
 
 // move  all role endpoint here in version 1.2
-user.get('/students', authenticateToken, authorizeRoles(['parent', 'teacher']), getClassroom);
+user.get('/user/classrooms', authenticateToken, authorizeRoles(['parent', 'teacher']), getClassroom);
 
 module.exports = { user };

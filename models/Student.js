@@ -11,8 +11,8 @@ const studentSchema = new mongoose.Schema({
         required: true
     },
     classRoom: {
-        type: String,//1 2 3 4 6A 7B so String
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Classroom'
     },
     parent: {
         type: mongoose.Schema.Types.ObjectId,

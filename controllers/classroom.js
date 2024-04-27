@@ -14,7 +14,7 @@ const createClassroom = async (req, res) => {
             school: school // Assign the school's ObjectId to the classroom
         });
 
-        res.status(201).json(newClassroom);
+        res.status(201).json(newClassroom,{message:"Classroom created successfully"});
     } catch (err) {
         // Handle errors
         console.error(err);

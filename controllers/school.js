@@ -94,6 +94,8 @@ const joinbyInviteCode = async (req, res) => {
 
         const updateUserSchool = {};
         updateUserSchool[user.role] = user._id;
+        const schoolUpdated = await School.findByIdAndUpdate(foundSchool[0]._id, { $push: updateUserSchool}, { new: true });
+
         console.log(updateUserSchool, "12312312312");
 
         // console.log(req.user)
@@ -101,7 +103,6 @@ const joinbyInviteCode = async (req, res) => {
         // if school found
         // update school with teacher or parent
         const userUpdated = await User.findByIdAndUpdate(user._id, { school: foundSchool[0]._id }, { new: true });
-        const schoolUpdated = await School.findByIdAndUpdate(foundSchool[0]._id, updateUserSchool, { new: true });
         // add school id to user(parent and teacher) 
         // if school not found
         res.status(200).json(schoolUpdated)

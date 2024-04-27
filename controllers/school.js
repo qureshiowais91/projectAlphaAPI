@@ -1,5 +1,6 @@
 const School = require('../models/School');
-const User = require("../models/User")
+const User = require("../models/User");
+
 // Controller for creating a new school
 const createSchool = async (req, res) => {
     try {
@@ -94,7 +95,7 @@ const joinbyInviteCode = async (req, res) => {
         const updateUserSchool = {};
         updateUserSchool[user.role] = user._id;
         console.log(updateUserSchool, "12312312312");
-        
+
         // console.log(req.user)
         // console.log(foundSchool)
         // if school found
@@ -112,14 +113,12 @@ const joinbyInviteCode = async (req, res) => {
     } catch (error) {
 
     }
-
 }
-
 
 module.exports = {
     createSchool,
     getAllSchools,
     updateSchool,
     generateInviteCode,
-    joinbyInviteCode
+    joinbyInviteCode,
 };

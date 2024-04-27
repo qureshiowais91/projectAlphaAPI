@@ -22,6 +22,14 @@ const createClassroom = async (req, res) => {
     }
 };
 
+const getClassroom = async (req, res) => {
+    try {
+        const classrooms = await Classroom.find({});
+        res.status(200).json(classrooms);
+    } catch (err) { }
+}
+
 module.exports = {
-    createClassroom
+    createClassroom,
+    getClassroom
 };

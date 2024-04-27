@@ -5,5 +5,4 @@ const authenticateToken = require("../middleware/authentication");
 const authorizeRoles = require("../middleware/authorization")
 
 parent.post('/student', authenticateToken, authorizeRoles(['parent']), addStudent);
-
 module.exports = { parent };

@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 
 // Define the schema for the Classroom model
 const classroomSchema = new mongoose.Schema({
-    inviteCode: {
-        type: String,
-    },
     classroom: {
         type: String,
         required: true

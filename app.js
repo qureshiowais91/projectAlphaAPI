@@ -8,6 +8,8 @@ const { validation } = require('./routes/validation');
 const { profile } = require("./routes/profile")
 const { parent } = require("./routes/parent")
 const { admin } = require("./routes/admin");
+const { user } = require('./routes/user')
+
 // ROUTES
 const cors = require('cors');
 require('dotenv').config();
@@ -35,7 +37,8 @@ app.use('/api', auth);
 app.use("/api", school);
 app.use("/api", profile);
 app.use("/api", parent);
-app.use('/api', admin)
+app.use('/api', admin);
+app.use('/api', user)
 // app.use('/api', organization);
 
 const PORT = process.env.PORT || 3000;

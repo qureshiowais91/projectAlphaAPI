@@ -1,15 +1,13 @@
 const Student = require('../models/Student');
 
-// Controller for GET /api/students
-const getAllStudents = async (req, res) => {
+const getStudentsByClassroom = async (req, res) => {
     try {
-        // Retrieve all students from the database
-        const students = await Student.find();
+        const { classroomId } = req.body;
 
-        // Return the list of students
+        const students = await Student.find({ classRoom: classroomId });
+
         res.status(200).json({ students });
     } catch (error) {
-        // Handle any errors
         res.status(500).json({ message: 'Failed to fetch students', error: error.message });
     }
 };
@@ -39,6 +37,6 @@ const addStudent = async (req, res) => {
 };
 
 module.exports = {
-    getAllStudents,
+    getStudentsByClassroom,
     addStudent
 };

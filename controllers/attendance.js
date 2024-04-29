@@ -3,12 +3,14 @@ const Attendance = require('../models/Attendance');
 // Controller function to create attendance record
 const createAttendance = async (req, res) => {
     try {
-        const { studentId } = req.body;
+        const { presents, absents } = req.body;
         const teacherId = req.user._id;
         const schoolId = req.user.school._id;
+
         const attendance = await Attendance.create({
             schoolId,
-            studentId,
+            presents,
+            absents,
             teacherId
         });
 
@@ -18,5 +20,5 @@ const createAttendance = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while creating attendance record' });
     }
 };
-module.exports = { createAttendance};
-  
+
+module.exports = { createAttendance };

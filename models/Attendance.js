@@ -8,6 +8,11 @@ const attendanceSchema = new Schema({
     ref: 'School',
     required: true,
   },
+  classroomId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Classroom',
+    required: true
+  },
   presents: [
     {
       type: Schema.Types.ObjectId,

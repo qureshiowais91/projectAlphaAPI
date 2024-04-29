@@ -3,8 +3,9 @@ const Attendance = require('../models/Attendance');
 // Controller function to create attendance record
 const createAttendance = async (req, res) => {
     try {
-        const { schoolId, studentId } = req.body;
+        const { studentId } = req.body;
         const teacherId = req.user._id;
+        const schoolId = req.user.school._id;
         const attendance = await Attendance.create({
             schoolId,
             studentId,

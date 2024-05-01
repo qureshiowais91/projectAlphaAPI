@@ -6,8 +6,7 @@ const { main } = require("../util/welcomeMail.js")
 // Define the register function
 async function register(req, res) {
     try {
-        const { email, password, role } = req.body;
-
+        const { email, password, phonenumber, role } = req.body;
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -19,6 +18,7 @@ async function register(req, res) {
         const newUser = await User.create({
             email,
             password: hashedPassword,
+            phonenumber,
             role
         });
 

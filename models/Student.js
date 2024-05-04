@@ -16,11 +16,11 @@ const studentSchema = new mongoose.Schema({
     },
     parent: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Parent'
+        ref: 'User'
     },
     teacher: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Teacher'
+        ref: 'User'
     },
     school: {
         type: mongoose.Schema.Types.ObjectId,

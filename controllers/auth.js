@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/User.js');
 const generateToken = require('../util/GenrateJWT.js');
-const { main } = require("../util/welcomeMail.js")
+const { sendOTP } = require("../util/welcomeMail.js")
 
 // Define the register function
 async function register(req, res) {
@@ -22,8 +22,7 @@ async function register(req, res) {
             role
         });
 
-        main(email).catch(console.error);
-
+        sendOTP(email).catch(console.error);
 
         const token = generateToken({ userId: newUser._id, email: email, role: role }, { expiresIn: '1h' });
         res.status(200).json({ isAuth: true, token, message: "Loggedin", role: role });

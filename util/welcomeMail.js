@@ -1,4 +1,10 @@
 const nodemailer = require('nodemailer');
+const otpGenerator = require('otp-generator');
+
+const Redis = require("ioredis");
+require('dotenv').config();
+const { REDIS_URL } = process.env;
+const renderRedis = new Redis(REDIS_URL);
 
 async function main(email) {
 
@@ -103,6 +109,48 @@ async function main(email) {
   console.log('Message sent: %s', info.messageId);
 }
 
-// main().catch(console.error);
+// Create a Redis client
 
-module.exports = { main }
+async function sendOTP(email) {
+  const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+
+  // Save the OTP in Redis with the email as the key
+  renderRedis.set(email, otp, 'EX', 600);
+
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'projectalphainfotech@gmail.com',
+      pass: process.env.EMAIL_CODE,
+    },
+  });
+
+  const info = await transporter.sendMail({
+    from: 'projectalphainfotech@gmail.com',
+    to: email,
+    subject: 'OTP Verification - Project Alpha Infotech',
+    text: `Your OTP for Project Alpha Infotech is: ${otp}. Please use this OTP to verify your account.`,
+    html: `<html>
+            <head>
+              <style>
+                /* Your email styles here */
+              </style>
+            </head>
+            <body>
+              <div class="header">OTP Verification - Project Alpha Infotech</div>
+              <div class="content">
+                <p style="color: #007bff;">Dear User,</p>
+                <p style="color: #333;">Your OTP for Project Alpha Infotech is: <strong>${otp}</strong>. Please use this OTP to verify your account.</p>
+                <p style="color: #333;">If you did not request this OTP, please ignore this email.</p>
+                <p style="color: #333;">Best regards,<br/>The Project Alpha Infotech Team</p>
+              </div>
+            </body>
+          </html>`
+  });
+
+  console.log('OTP sent: %s', info.messageId);
+}
+
+module.exports = { sendOTP, main, renderRedis };

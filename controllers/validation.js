@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const { sendResetPasswordEmail } = require('../util/resetPassword');
-const Redis = require("ioredis");
-
+const { renderRedis } = require("../util/welcomeMail")
 
 const sendOtp = async (req, res) => {
   try {
@@ -31,21 +30,20 @@ const validateOTP = async (req, res) => {
     if (found[0].email !== email) {
       throw Error("Email Not Found Or Email Invalid")
     }
-    
-    const { REDIS_URL } = process.env;
-    const renderRedis = new Redis(REDIS_URL);
 
-    const result = await renderRedis.get(email);
+    renderRedis.get(email).then((result) => {
+      console.log(` ${email}` + ":" + `${result}`); // Prints "cat"
+    });
 
     if (result !== otp) {
       throw Error("Invalid OTP")
+    } else {
+      res.status(200).json({ "Validated Email": true })
     }
 
-    res.status(200).json({ "Validated Email": true })
-
   } catch (error) {
-    console.error(error)
-    res.status(200).json({ "Validated Email": false })
+    console.error()
+    res.status(500)
   }
 }
 

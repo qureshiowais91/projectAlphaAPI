@@ -1,5 +1,6 @@
 const Attendance = require('../models/Attendance');
-
+const Student = require("../models/Student");
+const  notify  = require('../util/message');
 // Controller function to create attendance record
 const createAttendance = async (req, res) => {
   try {
@@ -17,8 +18,8 @@ const createAttendance = async (req, res) => {
       classroomId: classroomId,
       date: { $gte: today },
     });
-    console.log(isAttendance);
-    if (isAttendance.length) {
+    // console.log(isAttendance);
+    if (false) {
       res
         .status(200)
         .json(
@@ -33,12 +34,27 @@ const createAttendance = async (req, res) => {
         teacherId,
       });
 
-      res
-        .status(201)
-        .json({
-          message: 'Attendance record created successfully',
-          attendance,
-        });
+      // find phoneNumber of Parents
+      const students = await Student.find({ _id: { $in: absents } }).populate('parent')
+
+      const parents = []
+      students.forEach(student => {
+        parents.push(student.parent)
+      })
+
+      const phoneNumbers = []
+      parents.forEach((parent) => {
+        if (parent?.phonenumber) {
+          phoneNumbers.push(parent.phonenumber)
+        }
+      })
+      console.log(phoneNumbers);
+      notify("+917096120270");
+
+      res.status(201).json({
+        message: 'Attendance record created successfully',
+        attendance,
+      });
     }
   } catch (error) {
     console.error('Error creating attendance record:', error);

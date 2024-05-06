@@ -153,4 +153,107 @@ async function sendOTP(email) {
   console.log('OTP sent: %s', info.messageId);
 }
 
-module.exports = { sendOTP, main, renderRedis };
+
+
+async function attandanceNotice(email, schoolName, contactDetails) {
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'projectalphainfotech@gmail.com',
+      pass: process.env.EMAIL_CODE,
+    },
+  });
+
+  console.log(process.env.EMAIL_CODE);
+
+  const currentDate = new Date();
+
+  const info = await transporter.sendMail({
+    from: 'projectalphainfotech@gmail.com',
+    to: email,
+    subject: 'Confirmation Required: Your Child\'s Absence Report',
+    text: `Dear Parent,
+
+We hope this email finds you well. We are writing to inform you about an absence reported for your child at ${schoolName}.
+
+Date of Absence: ${currentDate.toDateString()}
+
+To confirm your awareness of this absence, please reply to this email with one of the following options:
+- Reply "Yes" if you are aware of this absence.
+- Reply "No" if you were not aware of this absence or if there are any concerns or questions you have regarding this matter.
+
+Your prompt response is appreciated. If you have any further questions or need assistance, please feel free to reach out to us at ${contactDetails}.
+
+Thank you for your attention to this matter.
+
+Best regards,
+Project Alpha Team`,
+    html: `<html>
+            <head>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  line-height: 1.6;
+                  color: #333;
+                  background-color: #f4f4f4; /* Background color */
+                }
+                .header {
+                  background-color: #007bff;
+                  color: #fff;
+                  padding: 20px;
+                  text-align: center;
+                  font-size: 24px;
+                }
+                .content {
+                  padding: 20px;
+                  border-radius: 10px; /* Rounded corners */
+                  background-color: #fff; /* Content background color */
+                  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Shadow */
+                }
+                .button {
+                  background-color: #4CAF50;
+                  border: none;
+                  color: white;
+                  padding: 15px 32px;
+                  text-align: center;
+                  text-decoration: none;
+                  display: inline-block;
+                  font-size: 16px;
+                  margin: 4px 2px;
+                  cursor: pointer;
+                  border-radius: 8px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="header">Confirmation Required: Your Child's Absence Report</div>
+              <div class="content">
+                <p style="color: #007bff;">Dear Parent,</p>
+                <p style="color: #333;">We hope this email finds you well. We are writing to inform you about an absence reported for your child at ${schoolName}.</p>
+                <p style="color: #333;">Date of Absence: ${currentDate.toDateString()}</p>
+                <p style="color: #333;">To confirm your awareness of this absence, please reply to this email with one of the following options:</p>
+                <ul>
+                  <li style="color: #333;">Reply "Yes" if you are aware of this absence.</li>
+                  <li style="color: #333;">Reply "No" if you were not aware of this absence or if there are any concerns or questions you have regarding this matter.</li>
+                </ul>
+                <p style="color: #333;">Your prompt response is appreciated. If you have any further questions or need assistance, please feel free to reach out to us at ${contactDetails}.</p>
+                <p style="color: #333;">Thank you for your attention to this matter.</p>
+                <p style="color: #333;">Best regards,<br/>Project Alpha Team</p>
+              </div>
+            </body>
+          </html>`
+  });
+
+  console.log('Message sent: %s', info.messageId);
+}
+
+
+
+
+
+
+
+
+module.exports = { sendOTP, main, renderRedis, attandanceNotice };

@@ -2,13 +2,14 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User.js');
 const generateToken = require('../util/GenrateJWT.js');
 const { sendOTP } = require("../util/welcomeMail.js")
+// const checkForProfanity =require("../util/profanity.js");
 
 // Define the register function
 async function register(req, res) {
     try {
         const { email, password, phonenumber, role } = req.body;
         const existingUser = await User.findOne({ email });
-
+      
         if (existingUser) {
             return res.status(400).json({ message: 'Email already exists' });
         }

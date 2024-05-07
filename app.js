@@ -9,8 +9,11 @@ const { profile } = require("./routes/profile")
 const { parent } = require("./routes/parent")
 const { admin } = require("./routes/admin");
 const { user } = require('./routes/user')
-
 // ROUTES
+
+// Error Handler
+const customErrorHandler = require("./middleware/errorHandler");
+
 const cors = require('cors');
 require('dotenv').config();
 const app = express();
@@ -39,7 +42,7 @@ app.use("/api", profile);
 app.use("/api", parent);
 app.use('/api', admin);
 app.use('/api', user);
-
+app.use(customErrorHandler);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

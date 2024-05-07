@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User.js');
 const generateToken = require('../util/GenrateJWT.js');
 const { sendOTP } = require("../util/welcomeMail.js")
+const CustomError = require("../util/error.js")
 // const checkForProfanity =require("../util/profanity.js");
 
 // Define the register function
@@ -35,32 +36,32 @@ async function register(req, res) {
 
 // Define the login function
 async function login(req, res) {
-    try {
-        const { email, password } = req.body;
-        console.log(req.body)
-        const user = await User.findOne({ email });
-        // check user if exist
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
 
-        // check if user valid    
-        if (!user.verified) {
-            return res.status(300).json({ message: 'Contact Developer To Get Verified' });
-        }
+    const { email, password } = req.body;
 
-        // Validate Password 
-        const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) {
-            return res.status(401).json({ message: 'Invalid password' });
-        }
-
-        const token = generateToken({ userId: user._id, email: user.email, role: user.role }, { expiresIn: '1h' });
-        res.status(200).json({ isAuth: true, token, message: "Loggedin", role: user.role });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ isAuth: false, token: "false", message: "Check ID PASSWORD" });
+    if (!email && !password) {
+        throw new CustomError("Email or Password Missing", 200);
     }
+    const user = await User.findOne({ email });
+    // check user if exist
+    if (!user) {
+        throw new CustomError("User Not Found", 404);
+    }
+
+    // check if user valid    
+    if (!user.verified) {
+        throw new CustomError("Contact Developer", 401);
+    }
+
+    // Validate Password 
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+        throw new CustomError("Invalid Creds", 401);
+    }
+
+    const token = generateToken({ userId: user._id, email: user.email, role: user.role }, { expiresIn: '5h' });
+    res.status(200).json({ isAuth: true, token, message: "Loggedin", role: user.role });
 }
 
 // Export all functions

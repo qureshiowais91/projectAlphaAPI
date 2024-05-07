@@ -7,31 +7,36 @@ const CustomError = require("../util/error.js")
 
 // Define the register function
 async function register(req, res) {
-    try {
-        const { email, password, phonenumber, role } = req.body;
-        const existingUser = await User.findOne({ email });
-
-        if (existingUser) {
-            return res.status(400).json({ message: 'Email already exists' });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = await User.create({
-            email,
-            password: hashedPassword,
-            phonenumber,
-            role
-        });
-
-        sendOTP(email).catch(console.error);
-
-        const token = generateToken({ userId: newUser._id, email: email, role: role }, { expiresIn: '1h' });
-        res.status(200).json({ isAuth: true, token, message: "Loggedin", role: role });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+    const { email, password, phonenumber, role } = req.body;
+    if (!email && !password && !phonenumber && !role) {
+        throw new CustomError("Required Filed Missing", 200);
     }
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+        throw new CustomError("User Already Exist", 200);
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    if (!hashedPassword) {
+        throw new CustomError("Server Internal Error Try Again Or Contact Developer", 200);
+    }
+    const newUser = await User.create({
+        email,
+        password: hashedPassword,
+        phonenumber,
+        role
+    });
+
+    //  check for retured data and schema 
+    // if (!newUser) {
+    //     throw new CustomError("Server Internal Error Try Again Or Contact Developer", 200);
+    // }
+
+    sendOTP(email).catch(console.error);
+
+    const token = generateToken({ userId: newUser._id, email: email, role: role }, { expiresIn: '1h' });
+    res.status(200).json({ isAuth: true, token, message: "Loggedin", role: role });
 }
 
 // Define the login function

@@ -4,7 +4,7 @@ const user = require('../controllers/auth.js');
 const asyncHandler = require("../middleware/asynchandler.js");
 
 // Register route
-auth.post('/auth/register', user.register);
+auth.post('/auth/register', asyncHandler(user.register));
 
 // Login route
 auth.post('/auth/login', asyncHandler(user.login));

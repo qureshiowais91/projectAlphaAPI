@@ -2,19 +2,17 @@ const School = require('../models/School');
 const User = require("../models/User");
 const CustomError = require('../util/error.js');
 const createSchoolSchema = require("../validators/createSchool.js")
-
+const schoolDetailsSchema = require("../validators/additionalSchoolDetails.js")
 // Controller for creating a new school
 const createSchool = async (req, res) => {
 
     const { error, value } = createSchoolSchema.validate(req.body);
 
-    const isSchoolFound = await User.find({_id:req.user.userId});
+    const isSchoolFound = await User.find({ _id: req.user.userId });
 
     if (isSchoolFound[0]?.school) {
         throw new CustomError("Already Linked With A School Can't Create New School", 400);
     }
-
-    // console.log(isSchoolFound[90])
 
     if (error) {
         // If validation fails, send a 400 Bad Request response with the validation error details
@@ -39,6 +37,35 @@ const createSchool = async (req, res) => {
     res.status(201).json({ message: 'School created successfully', school: newSchool });
 };
 
+const additionalSchoolDetails = async (req, res) => {
+    const userFound = await User.find({ _id: req.user._id });
+    const { error, value } = schoolDetailsSchema.validate(req.body);
+
+    if (error) {
+        // If validation fails, send a 400 Bad Request response with the validation error details
+        throw new CustomError(error?.details[0]?.message, 400);
+    }
+
+    const { ageRange, establishedDate, facilities, tuitionFees, dailySchedule } = value;
+
+
+    // Find the school by ID
+    const school = await School.findById(userFound[0].school);
+    if (!school) {
+        throw new CustomError("School Not Found", 404)
+    }
+
+    if (ageRange) school.ageRange = ageRange;
+    if (establishedDate) school.establishedDate = establishedDate;
+    if (facilities) school.facilities = facilities;
+    if (tuitionFees) school.tuitionFees = tuitionFees;
+    if (dailySchedule) school.dailySchedule = dailySchedule;
+
+    // Save the updated school
+    await school.save();
+
+    res.status(200).json({ message: 'School details updated successfully', school });
+};
 // Controller for retrieving all schools
 const getAllSchools = async (req, res) => {
     try {
@@ -85,7 +112,6 @@ const generateInviteCode = async (req, res) => {
     }
 };
 
-
 const joinbyInviteCode = async (req, res) => {
     try {
         // get inviteCode
@@ -131,4 +157,5 @@ module.exports = {
     updateSchool,
     generateInviteCode,
     joinbyInviteCode,
+    additionalSchoolDetails
 };

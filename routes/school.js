@@ -6,12 +6,13 @@ const {
     updateSchool,
     generateInviteCode,
     joinbyInviteCode,
+    additionalSchoolDetails,
 } = require('../controllers/school');
 
 const authenticateToken = require('../middleware/authentication');
 const authorizeRoles = require('../middleware/authorization');
 
-const asyncHandler = require("../middleware/asynchandler")
+const asyncHandler = require('../middleware/asynchandler');
 // Create a new school
 school.post(
     '/school',
@@ -22,6 +23,8 @@ school.post(
 
 // Retrieve all schools
 school.get('/', getAllSchools);
+
+school.post('/additionalSchoolDetails', authenticateToken, authorizeRoles(["admin"]), asyncHandler(additionalSchoolDetails));
 
 // Update a school
 school.put('/', updateSchool);

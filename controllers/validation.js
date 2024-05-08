@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const { sendResetPasswordEmail } = require('../util/resetPassword');
-const { renderRedis } = require("../util/welcomeMail")
+const { renderRedis } = require('../util/welcomeMail');
+const CustomError = require('../util/error');
 
 const sendOtp = async (req, res) => {
   try {
@@ -21,33 +22,26 @@ const sendOtp = async (req, res) => {
   }
 };
 
-
 const validateOTP = async (req, res) => {
-  try {
-    const { email, otp } = req.body;
-    const found = await User.find({ email: email });
+  const { email, otp } = req.body;
+  const found = await User.find({ email: email });
 
-    if (found[0].email !== email) {
-      throw Error("Email Not Found Or Email Invalid")
-    }
-
-    renderRedis.get(email).then((result) => {
-      console.log(` ${email}` + ":" + `${result}`); // Prints "cat"
-    });
-
-    if (result !== otp) {
-      throw Error("Invalid OTP")
-    } else {
-      res.status(200).json({ "Validated Email": true })
-    }
-
-  } catch (error) {
-    console.error()
-    res.status(500)
+  if (found[0].email !== email) {
+    throw Error('Email Not Found Or Email Invalid');
   }
-}
+
+  const result = await renderRedis.get(email);
+
+  if (result !== otp) {
+    throw new CustomError('Invalid OTP', 400);
+  }
+
+  await renderRedis.set(email, true, 'EX', 1000);
+
+  res.status(200).json({ 'Validated Email': true });
+};
 
 module.exports = {
   sendOtp,
-  validateOTP
+  validateOTP,
 };

@@ -9,4 +9,6 @@ auth.post('/auth/register', asyncHandler(user.register));
 // Login route
 auth.post('/auth/login', asyncHandler(user.login));
 
+auth.post('/auth/resetpassword', asyncHandler(user.resetpassword));
+
 module.exports = { auth };

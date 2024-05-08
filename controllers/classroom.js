@@ -1,5 +1,5 @@
 const Classroom = require('../models/Classroom');
-const CustomError = require("../util/error.js")
+const CustomError = require('../util/error.js');
 // Admin will Create New Class
 // And Also Share InviteCode For Each Class
 const createClassroom = async (req, res) => {
@@ -7,11 +7,14 @@ const createClassroom = async (req, res) => {
   const { classroom } = req.body;
 
   if (!school) {
-    throw new CustomError("School Id Missing Check If You Joined School Using Invite Code", 200);
+    throw new CustomError(
+      'School Id Missing Check If You Joined School Using Invite Code',
+      200
+    );
   }
 
   if (!classroom) {
-    throw new CustomError("Classroom Name Missing", 200);
+    throw new CustomError('Classroom Name Missing', 200);
   }
   // Create a new classroom directly using the create method
   const newClassroom = await Classroom.create({
@@ -20,7 +23,7 @@ const createClassroom = async (req, res) => {
   });
 
   if (!newClassroom) {
-    throw new CustomError("Try Again Or Contact Developer", 200);
+    throw new CustomError('Try Again Or Contact Developer', 200);
   }
 
   res
@@ -57,12 +60,10 @@ const joinClassroom = async (req, res) => {
       { $push: { students: studentId } },
       { new: true }
     );
-    res
-      .status(201)
-      .json({
-        classroom: updatedClassroom,
-        message: 'Classroom Joined Successfully',
-      });
+    res.status(201).json({
+      classroom: updatedClassroom,
+      message: 'Classroom Joined Successfully',
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -81,12 +82,10 @@ const joinClassroomTeacher = async (req, res) => {
       { teacher: teacherId },
       { new: true }
     );
-    res
-      .status(201)
-      .json({
-        classroom: updatedClassroom,
-        message: 'Classroom Joined Successfully',
-      });
+    res.status(201).json({
+      classroom: updatedClassroom,
+      message: 'Classroom Joined Successfully',
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

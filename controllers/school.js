@@ -1,33 +1,42 @@
 const School = require('../models/School');
 const User = require("../models/User");
+const CustomError = require('../util/error.js');
+const createSchoolSchema = require("../validators/createSchool.js")
 
 // Controller for creating a new school
 const createSchool = async (req, res) => {
-    try {
-        // Extract school details from the request body
-        const { name, address, contactDetails } = req.body;
 
-        // Create a new school instance
-        const newSchool = new School({
-            name,
-            address,
-            contactDetails
-        });
+    const { error, value } = createSchoolSchema.validate(req.body);
 
-        // Save the new school to the database  
-        await newSchool.save();
+    const isSchoolFound = await User.find({_id:req.user.userId});
 
-        const check = await User.findByIdAndUpdate(req.user.userId, {
-            school: newSchool._id
-        });
-
-        console.log(check, req.user)
-        // Return a success message along with the added school
-        res.status(201).json({ message: 'School created successfully', school: newSchool });
-    } catch (error) {
-        // Handle any errors
-        res.status(500).json({ message: 'Failed to create school', error: error.message });
+    if (isSchoolFound[0]?.school) {
+        throw new CustomError("Already Linked With A School Can't Create New School", 400);
     }
+
+    // console.log(isSchoolFound[90])
+
+    if (error) {
+        // If validation fails, send a 400 Bad Request response with the validation error details
+        throw new CustomError(error?.details[0]?.message, 400);
+    }
+
+    // Extract school details from the value
+    const { name, address, contactDetails } = value;
+
+    // Create a new school instance
+    const newSchool = await School.create({
+        name,
+        address,
+        contactDetails
+    });
+
+    await User.findByIdAndUpdate(req.user.userId, {
+        school: newSchool._id
+    });
+
+    // Return a success message along with the added school
+    res.status(201).json({ message: 'School created successfully', school: newSchool });
 };
 
 // Controller for retrieving all schools
@@ -94,7 +103,7 @@ const joinbyInviteCode = async (req, res) => {
 
         const updateUserSchool = {};
         updateUserSchool[user.role] = user._id;
-        const schoolUpdated = await School.findByIdAndUpdate(foundSchool[0]._id, { $push: updateUserSchool}, { new: true });
+        const schoolUpdated = await School.findByIdAndUpdate(foundSchool[0]._id, { $push: updateUserSchool }, { new: true });
 
         console.log(updateUserSchool, "12312312312");
 

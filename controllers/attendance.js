@@ -105,28 +105,15 @@ const createAttendance = async (req, res) => {
         teacherId,
       });
 
-
       const school = await School.find({ _id: schoolId });
       const schoolName = school[0].name;
       const contactDetails = school[0].contactDetails;
-      console.log(school, schoolName, contactDetails)
       const absentsToday = attendance.absents;
       const students = await Student.find({ _id: { $in: absentsToday } }).populate('parent')
 
-
-      const parents = []
-      students.forEach(student => {
-        parents.push(student.parent)
-      })
-
-
-      const emails = []
-      parents.forEach((parent) => {
-        if (parent?.email) {
-          emails.push(parent.email)
-        }
-      })
-
+      const emails = students
+        .map(student => student.parent?.email) // Use map for concise code
+        .filter(email => email);
 
       async function main(emailsArray) {
         for (const email of emailsArray) {
@@ -135,6 +122,7 @@ const createAttendance = async (req, res) => {
       }
 
       main(emails).catch(console.error);
+
       res.status(201).json({
         message: 'Attendance record created successfully',
         attendance,

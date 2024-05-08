@@ -4,6 +4,7 @@ const { getClassroom, joinClassroom, joinClassroomTeacher, getStudentsOfClassroo
 const { createAttendance } = require("../controllers/attendance");
 const authenticateToken = require("../middleware/authentication");
 const authorizeRoles = require("../middleware/authorization")
+const asyncHandler = require("../middleware/asynchandler")
 
 // move  all role endpoint here in version 1.2
 user.get('/user/classrooms', authenticateToken, authorizeRoles(['parent', 'teacher']), getClassroom);

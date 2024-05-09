@@ -2,6 +2,7 @@ const User = require('../models/User');
 const { sendResetPasswordEmail } = require('../util/resetPassword');
 const { renderRedis } = require('../util/welcomeMail');
 const CustomError = require('../util/error');
+const bcrypt = require('bcryptjs');
 
 const sendOtp = async (req, res) => {
   try {
@@ -41,7 +42,29 @@ const validateOTP = async (req, res) => {
   res.status(200).json({ 'Validated Email': true });
 };
 
+const resetpassword = async (req, res) => {
+  const { email, newpassword } = req.body;
+
+  const result = await renderRedis.get(email);
+
+  if (!result) {
+    throw new CustomError('Fail to Reset Password Try Again With New OTP', 400);
+  }
+
+  const userToChangePassword = await User.find({ email: email });
+
+  const hashedPassword = await bcrypt.hash(newpassword, 10);
+
+  await User.findByIdAndUpdate(
+    { _id: userToChangePassword[0]._id },
+    { password: hashedPassword }
+  );
+
+  res.status(200);
+};
+
 module.exports = {
   sendOtp,
   validateOTP,
+  resetpassword,
 };

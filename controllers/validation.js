@@ -60,7 +60,7 @@ const resetpassword = async (req, res) => {
     { password: hashedPassword }
   );
 
-  res.status(200);
+  res.status(200).json({"success":true});
 };
 
 module.exports = {

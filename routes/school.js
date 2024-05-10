@@ -39,7 +39,7 @@ school.post(
     '/joinbyInviteCode',
     authenticateToken,
     authorizeRoles(['parent', 'teacher']),
-    joinbyInviteCode
+    asyncHandler(joinbyInviteCode)
 );
 // Delete a school
 // school.delete('/', deleteSchool);

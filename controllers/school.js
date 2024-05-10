@@ -148,7 +148,7 @@ const joinbyInviteCode = async (req, res) => {
   ];
 
   const foundSchool = await School.aggregate(pipline);
-  if (!foundSchool == []) {
+  if ((foundSchool == [])) {
     throw new CustomError("invalid Invite Code Or It's Changed");
   }
 

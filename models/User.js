@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   verified: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   school: { type: mongoose.Schema.Types.ObjectId, ref: 'School' },
   student: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],

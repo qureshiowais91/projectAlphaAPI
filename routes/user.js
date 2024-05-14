@@ -60,7 +60,7 @@ user.post(
 );
 
 user.get(
-  '/user/attendance',
+  '/user/viewAttendance',
   authenticateToken,
   authorizeRoles(['admin', 'teacher']),
   getAttendanceSummary

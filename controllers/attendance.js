@@ -81,7 +81,7 @@ async function getAttendanceSummary(req, res) {
           date: {
             $gte: new Date(new Date() - 24 * 60 * 60 * 1000), // Filter for the past 24 hours
           },
-          schoolId: mongoose.Types.ObjectId(schoolId), // Convert schoolId to ObjectId and filter
+          schoolId: new mongoose.Types.ObjectId(schoolId), // Convert schoolId to ObjectId and filter
         },
       },
       {

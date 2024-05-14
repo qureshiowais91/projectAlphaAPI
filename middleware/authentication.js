@@ -15,6 +15,7 @@ async function authenticateToken(req, res, next) {
         const user = jwt.verify(token, process.env.JWT_SECRET);
         console.log(user);
         // If verification succeeds, attach the decoded user information to the request object
+        // check if this _id present in database
         req.user = user;
         // Call next middleware function
         next();

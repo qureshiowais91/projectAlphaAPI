@@ -8,7 +8,10 @@ const {
 } = require('../controllers/classroom');
 const { getStudents } = require('../controllers/student');
 
-const { createAttendance } = require('../controllers/attendance');
+const {
+  createAttendance,
+  getAttendanceSummary,
+} = require('../controllers/attendance');
 const authenticateToken = require('../middleware/authentication');
 const authorizeRoles = require('../middleware/authorization');
 const asyncHandler = require('../middleware/asynchandler');
@@ -54,5 +57,12 @@ user.post(
   authenticateToken,
   authorizeRoles(['teacher']),
   createAttendance
+);
+
+user.get(
+  '/user/attendance',
+  authenticateToken,
+  authorizeRoles(['admin', 'teacher']),
+  getAttendanceSummary
 );
 module.exports = { user };

@@ -116,6 +116,7 @@ async function getAttendanceSummary(req, res) {
     res.status(200).json({ attendanceSummary });
   } catch (error) {
     console.error('Error getting attendance summary:', error);
+    res.status(404).json("server error");
     throw error;
   }
 }

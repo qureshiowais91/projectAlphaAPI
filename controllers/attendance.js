@@ -53,8 +53,8 @@ const createAttendance = async (req, res) => {
         .map((student) => student.parent?.email) // Use map for concise code
         .filter((email) => email);
 
-      const res = await User.find({ _id: teacherId });
-      const absentReporter = await res.json();
+      const absentReporter = await User.findOne({ _id: teacherId });
+       conosle.log(absentReporter)
 
       async function main(emailsArray) {
         for (const email of emailsArray) {
@@ -62,7 +62,7 @@ const createAttendance = async (req, res) => {
             email,
             schoolName,
             contactDetails,
-            absentReporter.email
+              absentReporter.email
           );
         }
       }

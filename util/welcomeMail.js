@@ -233,8 +233,8 @@ Project Alpha Team`,
               <div class="content">
                 <p style="color: #007bff;">Dear Parent,</p>
                 <p style="color: #333;">We hope this email finds you well. We are writing to inform you about an absence reported for your child at ${schoolName}.</p>
-                <p style="color: #333;">Date of Absence: ${currentDate.toDateString()}</p>
                 <p style="color: #333;">Moreover this Absence is Reported by ${absentReporter}</p>
+               <p style="color: #333;">Date of Absence: ${currentDate.toDateString()}</p>
                 <p style="color: #333;">To confirm your awareness of this absence, please reply to this email with one of the following options:</p>
                 <ul>
                   <li style="color: #333;">Reply "Yes" if you are aware of this absence.</li>

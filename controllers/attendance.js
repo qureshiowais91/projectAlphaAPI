@@ -54,7 +54,7 @@ const createAttendance = async (req, res) => {
         .filter((email) => email);
 
       const absentReporter = await User.findOne({ _id: teacherId });
-      console.log(absentReporter)
+      console.log(absentReporter.email);
 
       async function main(emailsArray) {
         for (const email of emailsArray) {
@@ -62,7 +62,7 @@ const createAttendance = async (req, res) => {
             email,
             schoolName,
             contactDetails,
-              absentReporter.email
+            absentReporter.email
           );
         }
       }

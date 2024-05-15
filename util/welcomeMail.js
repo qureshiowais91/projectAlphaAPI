@@ -155,7 +155,7 @@ async function sendOTP(email) {
 
 
 
-async function attandanceNotice(email, schoolName, contactDetails) {
+async function attandanceNotice(email, schoolName, contactDetails,absentReporter) {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -177,12 +177,13 @@ async function attandanceNotice(email, schoolName, contactDetails) {
     text: `Dear Parent,
 
 We hope this email finds you well. We are writing to inform you about an absence reported for your child at ${schoolName}.
-
+Moreover this Absence is Reported by ${absentReporter},
 Date of Absence: ${currentDate.toDateString()}
 
 To confirm your awareness of this absence, please reply to this email with one of the following options:
 - Reply "Yes" if you are aware of this absence.
 - Reply "No" if you were not aware of this absence or if there are any concerns or questions you have regarding this matter.
+
 
 Your prompt response is appreciated. If you have any further questions or need assistance, please feel free to reach out to us at ${contactDetails}.
 
@@ -233,6 +234,7 @@ Project Alpha Team`,
                 <p style="color: #007bff;">Dear Parent,</p>
                 <p style="color: #333;">We hope this email finds you well. We are writing to inform you about an absence reported for your child at ${schoolName}.</p>
                 <p style="color: #333;">Date of Absence: ${currentDate.toDateString()}</p>
+                <p style="color: #333;">Moreover this Absence is Reported by ${absentReporter}</p>
                 <p style="color: #333;">To confirm your awareness of this absence, please reply to this email with one of the following options:</p>
                 <ul>
                   <li style="color: #333;">Reply "Yes" if you are aware of this absence.</li>

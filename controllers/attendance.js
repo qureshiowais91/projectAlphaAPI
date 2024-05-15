@@ -4,6 +4,7 @@ const School = require('../models/School');
 const { attandanceNotice } = require('../util/welcomeMail');
 const Classroom = require('../models/Classroom');
 const mongoose = require('mongoose');
+const User = require('../models/User');
 
 const createAttendance = async (req, res) => {
   try {
@@ -52,9 +53,17 @@ const createAttendance = async (req, res) => {
         .map((student) => student.parent?.email) // Use map for concise code
         .filter((email) => email);
 
+      const res = await User.find({ _id: teacherId });
+      const absentReporter = await res.json();
+
       async function main(emailsArray) {
         for (const email of emailsArray) {
-          await attandanceNotice(email, schoolName, contactDetails);
+          await attandanceNotice(
+            email,
+            schoolName,
+            contactDetails,
+            absentReporter.email
+          );
         }
       }
 
@@ -80,7 +89,7 @@ async function getAttendanceSummary(req, res) {
         $match: {
           date: {
             $gte: new Date(new Date() - 24 * 60 * 60 * 1000), // Filter for the past 24 hours
-            $gte: new Date(new Date().setHours(1,0,0,0)) // Filter for after 1:00 AM
+            $gte: new Date(new Date().setHours(1, 0, 0, 0)), // Filter for after 1:00 AM
           },
           schoolId: new mongoose.Types.ObjectId(schoolId), // Convert schoolId to ObjectId and filter
         },
@@ -117,7 +126,7 @@ async function getAttendanceSummary(req, res) {
     res.status(200).json({ attendanceSummary });
   } catch (error) {
     console.error('Error getting attendance summary:', error);
-    res.status(404).json("server error");
+    res.status(404).json('server error');
     throw error;
   }
 }

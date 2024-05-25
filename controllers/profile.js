@@ -1,3 +1,4 @@
+const School = require('../models/School');
 const User = require('../models/User');
 const CustomError = require('../util/error');
 
@@ -41,7 +42,26 @@ async function getRelatedSchoolInfo(req, res) {
   res.status(200).json({ school: user?.school });
 }
 
+async function schoolDetailByInviteCode(req, res) {
+  const { profile } = req.query;
+  console.log(profile);
+  if (!profile) {
+    throw new CustomError('InviteCode Is Missing', 404);
+  }
+
+  const schoolDetails = await School.find({ inviteCode: profile }).select([
+    'name',
+    'address',
+    'contactDetails',
+    'facilities',
+  ]);
+
+  console.log(schoolDetails);
+  res.status(200).json(schoolDetails[0]);
+}
+
 module.exports = {
   getProfile,
   getRelatedSchoolInfo,
+  schoolDetailByInviteCode,
 };

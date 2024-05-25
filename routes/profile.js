@@ -1,6 +1,10 @@
 const express = require('express');
 const profile = express.Router();
-const { getProfile, getRelatedSchoolInfo } = require('../controllers/profile');
+const {
+  getProfile,
+  getRelatedSchoolInfo,
+  schoolDetailByInviteCode,
+} = require('../controllers/profile');
 
 // Middlewares
 const asyncHandler = require('../middleware/asynchandler');
@@ -12,10 +16,8 @@ profile.get(
   authenticateToken,
   asyncHandler(getRelatedSchoolInfo)
 );
-profile.get(
-  '/user/profile',
-  authenticateToken,
-  asyncHandler(getProfile)
-);
+profile.get('/user/profile', authenticateToken, asyncHandler(getProfile));
+
+profile.get('/school/inviteCode', asyncHandler(schoolDetailByInviteCode));
 
 module.exports = { profile };

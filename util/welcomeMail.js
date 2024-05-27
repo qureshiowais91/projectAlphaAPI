@@ -21,7 +21,7 @@ async function main(email) {
   console.log(process.env.EMAIL_CODE);
 
   const info = await transporter.sendMail({
-    from: 'projectalphainfotech@gmail.com',
+    from: 'alert@schoolwool.site',
     to: email,
     subject: 'Welcome to Project Alpha Infotech! 🚀',
     text: `Dear User,

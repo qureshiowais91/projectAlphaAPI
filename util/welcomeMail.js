@@ -13,7 +13,7 @@ async function main(email) {
     port: 465,
     secure: true,
     auth: {
-      user: 'projectalphainfotech@gmail.com',
+      user: 'alert@schoolwool.site',
       pass: process.env.EMAIL_CODE,
     },
   });

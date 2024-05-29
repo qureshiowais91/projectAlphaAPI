@@ -7,8 +7,7 @@ const schoolSchema = new mongoose.Schema({
         required: true,
     },
     username:{
-        try:String,
-        required: false,
+        type:String,
     },
     address: {
         type: String,
@@ -43,7 +42,7 @@ const schoolSchema = new mongoose.Schema({
         }
     },
     dailySchedule: { type: String },
-    extracurricularActivities: { type: String },
+    extracurricularActivities: [{ type: String }],
     socialMediaLinks: {
         facebook: { type: String, validate: /^https?:\/\/(www\.)?facebook.com\/.+$/ },
         instagram: { type: String, validate: /^https?:\/\/(www\.)?instagram.com\/.+$/ },

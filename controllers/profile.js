@@ -42,7 +42,7 @@ async function getRelatedSchoolInfo(req, res) {
   res.status(200).json({ school: user?.school });
 }
 
-async function schoolDetailByInviteCode(req, res) {
+async function schoolpublicprofile(req, res) {
   const { profile } = req.query;
   console.log(profile);
   if (!profile) {
@@ -54,6 +54,10 @@ async function schoolDetailByInviteCode(req, res) {
     'address',
     'contactDetails',
     'facilities',
+    'ageRange',
+    'studentTeacherRatio',
+    'extracurricularActivities',
+    'socialMediaLinks'
   ]);
 
   console.log(schoolDetails);
@@ -63,5 +67,5 @@ async function schoolDetailByInviteCode(req, res) {
 module.exports = {
   getProfile,
   getRelatedSchoolInfo,
-  schoolDetailByInviteCode,
+  schoolpublicprofile,
 };

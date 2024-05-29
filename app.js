@@ -35,13 +35,13 @@ mongoose
     console.error('Error connecting to MongoDB:', error);
   });
 
-app.use('/api', validation);
-app.use('/api', auth);
-app.use('/api', school);
-app.use('/api', profile);
-app.use('/api', parent);
-app.use('/api', admin);
-app.use('/api', user);
+app.use('/', validation);
+app.use('/', auth);
+app.use('/', school);
+app.use('/', profile);
+app.use('/', parent);
+app.use('/', admin);
+app.use('/', user);
 app.use(customErrorHandler);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

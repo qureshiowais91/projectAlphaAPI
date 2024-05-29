@@ -3,7 +3,7 @@ const profile = express.Router();
 const {
   getProfile,
   getRelatedSchoolInfo,
-  schoolDetailByInviteCode,
+  schoolpublicprofile,
 } = require('../controllers/profile');
 
 // Middlewares
@@ -18,6 +18,6 @@ profile.get(
 );
 profile.get('/user/profile', authenticateToken, asyncHandler(getProfile));
 
-profile.get('/school/inviteCode', asyncHandler(schoolDetailByInviteCode));
+profile.get('/school', asyncHandler(schoolpublicprofile));
 
 module.exports = { profile };

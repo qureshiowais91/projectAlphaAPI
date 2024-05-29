@@ -6,6 +6,10 @@ const schoolSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    username:{
+        try:String,
+        required: false,
+    },
     address: {
         type: String,
         required: true,

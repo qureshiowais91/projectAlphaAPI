@@ -49,7 +49,7 @@ async function schoolDetailByInviteCode(req, res) {
     throw new CustomError('InviteCode Is Missing', 404);
   }
 
-  const schoolDetails = await School.find({ inviteCode: profile }).select([
+  const schoolDetails = await School.find({ username: profile }).select([
     'name',
     'address',
     'contactDetails',

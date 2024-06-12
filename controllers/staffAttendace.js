@@ -26,7 +26,7 @@ const createAttendance = async (req, res) => {
       attendance = await StaffAttendance.create({
         schoolId: schoolId,
         teacherId: teacherId,
-        attendanceLogs: [{ approximateLocation: approximateLocation }],
+        approximateLocation: approximateLocation,
       }); // Save the new attendance record
       // Send success response
       res.status(201).json({

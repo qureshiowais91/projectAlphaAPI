@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 // Define schema for StaffAttendance model
 const staffAttendanceSchema = new mongoose.Schema({
   schoolId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   teacherId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   loginTime: {

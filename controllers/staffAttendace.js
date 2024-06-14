@@ -2,12 +2,18 @@ const StaffAttendance = require('../models/staffAttendance'); // Importing the S
 
 // Controller function to create new attendance based on school ID
 const createAttendance = async (req, res) => {
-  console.log(req.user._id);
-
-  const { schoolId, teacherId, approximateLocation } = req.body;
-
+  const { schoolId, approximateLocation } = req.body;
+  const teacherId = req.user._id;
+  const userSchoolId = req.user.school;
+  console.log(req.user)
   try {
     // Get today's date
+    // check if school id from user object
+    
+    if(schoolId != userSchoolId){
+      res.status(201).json({ message: 'QR ID Does Not Match With Database'});
+    }
+
     const today = new Date();
     today.setHours(5, 0, 0, 0); // Set hours to 5:00 AM, minutes, seconds, and milliseconds to 0
 

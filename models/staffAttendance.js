@@ -20,7 +20,7 @@ const staffAttendanceSchema = new mongoose.Schema({
   },
   approximateLocation: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 

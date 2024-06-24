@@ -57,15 +57,18 @@ async function schoolpublicprofile(req, res) {
     'ageRange',
     'studentTeacherRatio',
     'extracurricularActivities',
-    'socialMediaLinks'
+    'socialMediaLinks',
   ]);
 
   console.log(schoolDetails);
   res.status(200).json(schoolDetails[0]);
 }
+// return others profile not accessers
+
 
 module.exports = {
   getProfile,
   getRelatedSchoolInfo,
   schoolpublicprofile,
+  userProfile,
 };

@@ -17,7 +17,6 @@ profile.get(
   asyncHandler(getRelatedSchoolInfo)
 );
 profile.get('/user/profile', authenticateToken, asyncHandler(getProfile));
-
 profile.get('/school', asyncHandler(schoolpublicprofile));
 
 module.exports = { profile };

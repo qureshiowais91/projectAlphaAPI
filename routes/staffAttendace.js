@@ -1,6 +1,12 @@
 const express = require('express');
 const staff = express.Router();
-const { createAttendance } = require('../controllers/staffAttendace');
+const asyncHandler = require('../middleware/asynchandler');
+
+const {
+  createAttendance,
+  getStaffAttendanceList,
+} = require('../controllers/staffAttendace');
+
 const authenticateToken = require('../middleware/authentication');
 const authorizeRoles = require('../middleware/authorization');
 
@@ -11,4 +17,11 @@ staff.post(
   createAttendance
 );
 
-module.exports = {staff};
+staff.get(
+  '/staff/attendances',
+  authenticateToken,
+  authorizeRoles('admin'),
+  asyncHandler(getStaffAttendanceList)
+);
+
+module.exports = { staff };

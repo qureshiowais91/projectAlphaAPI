@@ -22,12 +22,19 @@ const staffAttendanceSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  status: {
+    type: String,
+    enum: ['Present', 'Absent', 'On Leave'],
+    default: 'Present',
+    required: true,
+  },
+  remarks: {
+    type: String,
+    required: false,
+  },
 });
 
 // Create model from schema
-const StaffAttendance = mongoose.model(
-  'StaffAttendance',
-  staffAttendanceSchema
-);
+const StaffAttendance = mongoose.model('StaffAttendance', staffAttendanceSchema);
 
 module.exports = StaffAttendance;

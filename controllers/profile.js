@@ -70,5 +70,4 @@ module.exports = {
   getProfile,
   getRelatedSchoolInfo,
   schoolpublicprofile,
-  userProfile,
 };
